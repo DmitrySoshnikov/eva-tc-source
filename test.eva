@@ -1,0 +1,111 @@
+/**
+ * Class declaration.
+ */
+
+(class Point null
+  (begin
+
+    (var (x number) 0)
+    (var (y number) 0)
+
+    (def constructor ((self Point) (x number) (y number)) -> Point
+      (begin
+        (set (prop self x) x)
+        (set (prop self y) y)
+        self))
+
+    (def calc ((self Point)) -> number
+      (+ (prop self x) (prop self y)))))
+
+(var (p Point) (new Point 10 20))
+
+((prop p calc) p)
+
+/**
+ * Child class.
+ */
+
+(class Point3D Point
+  (begin
+
+    (var (z number) 0)
+
+    (def constructor ((self Point3D) (x number) (y number) (z number)) -> Point3D
+      (begin
+        ((prop (super Point3D) constructor) self x y)
+        (set (prop self z) z)
+        self))
+
+    (def calc ((self Point3D)) -> number
+      (+ ((prop (super Point3D) calc) self)
+         (prop self z)))))
+
+(var (p Point3D) (new Point3D 10 20 30))
+
+((prop p calc) p)
+
+
+/*
+
+What's next?
+
+1. Shapes (aka Objects, aka Interfaces)
+
+(type User
+  (object
+    (name string)
+    (age number)))
+
+(var (user User)
+  (object
+    (name "John")
+    (age 25)))
+
+// (interface <name> ...) -> syntactic sugar for (type <name> (object ...))
+
+(interface User
+  (name string)
+  (age number))
+
+(class <name> <parent> <interface-list> <body>)
+
+2. Async functions
+
+(async def fetch <params> <body>)
+
+3. Array literals:
+
+(array ...)
+
+4. Type: valueBelongs, isOperationSupported
+
+
+5. Values union
+
+(type names (or "alex" "john"))
+
+6. Infer types for generic calls:
+
+(combine <number> 2 3) -> (combine 2 3)
+
+7. etc
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

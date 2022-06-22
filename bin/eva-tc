@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+/**
+ * Typed Eva: static typecheker.
+ *
+ * (C) 2022-present Dmitry Soshnikov <dmitry.soshnikov@gmail.com>
+ */
+
+'use strict';
+
+const fs = require('fs');
+
+const evaParser = require('../parser/evaParser');
+const EvaTC = require('../src/EvaTC');
+
+function tcGlobal(src, eva) {
+  const exp = evaParser.parse(`(begin ${src})`);
+  try {
+    eva.tcGlobal(exp);
+    console.log('No errors!');
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+/**
+ * Examples:
+ *
+ *   ./bin/eva-tc -e '(+ 2 3)'
+ *   ./bin/eva-tc -f ~/test.eva
+ */
+function main(argv) {
+  const [_node, _path, mode, exp] = argv;
+
+  const eva = new EvaTC();
+
+  // 1. Direct expression:
+
+  if (mode === '-e') {
+    return tcGlobal(exp, eva);
+  }
+
+  // 2. Eva file:
+
+  if (mode === '-f') {
+    const src = fs.readFileSync(exp, 'utf-8');
+    return tcGlobal(src, eva);
+  }
+}
+
+main(process.argv);
