@@ -73,6 +73,35 @@ Type.any = new Type('any');
  */
 Type.Function = class extends Type {
   /* Implement here */
+
+  /**
+   * Returns name: Fn<returnType<p1, p2, ...>>
+   *
+   * Fn<number> - function which returns a number
+   *
+   * Fn<number<number,number>> - function which returns a number, and accepts two numbers
+   */
+  getName() {
+    if (this.name == null) {
+      const name = ['Fn<', this.returnType.getName()];
+      // Params.
+      if (this.paramTypes.length !== 0) {
+        const params = [];
+        for (let i = 0; i < this.paramTypes.length; i++) {
+          params.push(this.paramTypes[i].getName());
+        }
+        name.push('<', params.join(','), '>');
+      }
+      name.push('>');
+
+      // Calculated name:
+      this.name = name.join('');
+    }
+    return this.name;
+  }
+
+  /* Implement here */
+
 };
 
 /**
