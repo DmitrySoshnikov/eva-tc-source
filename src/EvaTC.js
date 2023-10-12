@@ -218,7 +218,7 @@ class EvaTC {
    *
    * (combine <string> "hello")
    */
-  _extractActulCallTypes(exp) {
+  _extractActualCallTypes(exp) {
     const data = /^<([^>]+)>$/.exec(exp[1]);
 
     if (data == null) {
